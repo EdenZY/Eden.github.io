@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>Archives | EdenZY</title>
+  <title>主机发现总结 | EdenZY</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -59,7 +59,7 @@
 </head>
 
 <!--
-<body class="home-template">
+<body class="post-template">
 -->
 <body id="index" class="lightnav animsition">
 
@@ -169,93 +169,139 @@
         <!-- ============================ Header & Logo bar =========================== -->
 
 
-      <!-- ============================ Hero Image =========================== -->
-
-<section id="hero" class="scrollme">
-    <div class="container-fluid element-img" style="background: url(/img/bg_img.jpg) no-repeat center center fixed;background-size: cover">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 vertical-align cover boost text-center">
-                <div class="center-me animateme" data-when="exit" data-from="0" data-to="0.6" data-opacity="0" data-translatey="100">
-                    <div>
-                        
-                        <h2></h2>
-                        <p>每一个不曾起舞的日子都是对生命的辜负。</p>
-                        
-
-                    </div>
-                </div>
-            </div>
-            <!-- // .col-md-12 -->
-        </div>
-        <div class="herofade beige-dk"></div>
-    </div>
-</section>
-
-<!-- Height spacing helper -->
-<div class="heightblock"></div>
-<!-- // End height spacing helper -->
-
-<!-- ============================ END Hero Image =========================== -->
-
-
-
-
-<section id="services">
+      
+<section id="intro">
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="row boxes">
-                    
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2019/09/28/主机发现总结/">主机发现总结</a></h4>
-                            
-                            <p><time datetime="2019-09-28T13:50:25.000Z"><a href="/2019/09/28/主机发现总结/">2019-09-28</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2018/09/03/test/">Picture test</a></h4>
-                            
-                            <p><time datetime="2018-09-03T08:38:01.000Z"><a href="/2018/09/03/test/">2018-09-03</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2018/09/02/whoami/">Eden</a></h4>
-                            
-                            <p><time datetime="2018-09-02T04:18:16.000Z"><a href="/2018/09/02/whoami/">2018-09-02</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2018/09/02/just-a-start/">&#39;just a start&#39;</a></h4>
-                            
-                            <p><time datetime="2018-09-02T02:54:03.000Z"><a href="/2018/09/02/just-a-start/">2018-09-02</a></time></p>
-                        </div>
-                    
-                </div>
-            </div>    
+        <div class="row col-md-offset-2">
+            <div class="col-md-8">
+    			<span class="post-meta">
+      <time datetime="2019-09-28T13:50:25.000Z" itemprop="datePublished">
+          2019-09-28
+      </time>
+    
+    
+    | 
+    <a href='/tags/kali/'>kali</a>,
+    
+    <a href='/tags/主机发现/'>主机发现</a>,
+    
+    <a href='/tags/渗透/'>渗透</a>
+    
+    
+</span>
+                <h1>主机发现总结</h1>
+            </div>
         </div>
-    </div>
-</section> 
+        <div class="col-md-8 col-md-offset-2">
+      		<hr>
+<p>在渗透测试中，<code>主机发现</code>通常会是经常用的一项技能，最近在谷安上跟着一个课程学习，随便记录总结一下，方便以后查询</p>
+<p>这里网络发现的是根据 <em>ISO七层</em> 模型来发现的</p>
+<p><img src="./osi.png" alt="OSI"></p>
+<h3 id="首先是二层发现"><a href="#首先是二层发现" class="headerlink" title="首先是二层发现"></a>首先是二层发现</h3><p>这是网络拓扑图，本次测试中用 Kali 对内网主机进行扫描(Windows IP:192.168.123.85)</p>
+<p><img src="./tuopu.png" alt="tuopu"></p>
+<hr>
+<blockquote>
+<h4 id="Arping"><a href="#Arping" class="headerlink" title="Arping"></a>Arping</h4></blockquote>
+<p>arping命令使用：<br><code>arping [-fqbDUAV] [-c count] [-w timeout] [-I device] [-s source]  ip</code></p>
+<p>Arping 一次只能检测一台主机的存活情况，如果需要批量检测的话，需要配合脚本使用<br>直接 <code>arping ip</code> 命令会一直运行，直到手动停止 <code>Ctrl+ c</code><br>若主机存活<br><img src="./arp1.png" alt="arp1"><br>如果主机不在线<br><img src="./arp2.png" alt="arp2"><br>所以一般用 <code>arping ip -c 1</code>  参数 <code>-c</code>是指定发包次数，对于不在线的主机不用一直等待，自动结束<br><img src="./arp3.png" alt="arp3"></p>
+<p>如果用 <code>arp</code>扫描整个网段的话，用 shell 脚本可以实现<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">if [ "$#" -ne 1 ]</span><br><span class="line">then</span><br><span class="line">    echo "Usage - ./arping.sh [interface]"</span><br><span class="line">    echo "Example - ./arping.sh eth0"</span><br><span class="line">    exit </span><br><span class="line">fi</span><br><span class="line">prefix=$(ifconfig $1 | grep 'netmask' | cut -d 't' -f 2 | cut -d '.' -f 1-3)</span><br><span class="line">for addr in $(seq 1 254);do</span><br><span class="line">    arping -c 1 $prefix.$addr | grep "reply from" | cut -d " " -f 4 &gt;&gt; addr1.txt</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<p><img src="./arpsh.png" alt="arpsh"></p>
+<p>也可以用 shell 脚本测试文本中的 IP 是否存活</p>
+<p><img src="./ip.png" alt="ip"><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">if [ "$#" -ne 1 ]</span><br><span class="line">then</span><br><span class="line">    echo "Usage - ./arping.sh [filename]"</span><br><span class="line">    echo "Example - ./arping.sh addr.txt"</span><br><span class="line">    echo "Example will verify an ARP list which ip up"</span><br><span class="line">    exit</span><br><span class="line">fi</span><br><span class="line">file=$1</span><br><span class="line">for addr in $(cat $file); do</span><br><span class="line">    arping -c 1 $addr | grep "reply from" | cut -d " " -f 4</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<p><img src="./arpshV.png" alt="arpshV"></p>
+<p><em>apring 还有个很大用处是： <code>-D</code> 检测局域网内的IP地址冲突问题</em> <code>arping -c 3 -f -D ip</code><br><img src="./arp4.png" alt="arp4"></p>
+<p>返回空，说明这个IP地址没有被局域网占用。</p>
+<hr>
+<blockquote>
+<h3 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h3></blockquote>
+<p>Nmap 是一个非常强大的工具，这里仅用作二层网络发现<code>nmap -sn CIDR</code> 直接扫描整个网段<br><img src="./nmap1.png" alt="nmap1"><br>网络中共有四台存活的IP，这里用 <code>-sn</code> 只发现了三个（没有发现手机的…）优点是速度很快</p>
+<p>nmap 也可以扫描指定文件中的 IP  <code>nmap -iL -sn file</code> 这里 L 是大写<br><img src="./nmap2.png" alt="nmap2"></p>
+<hr>
+<blockquote>
+<h3 id="Netdiscover"><a href="#Netdiscover" class="headerlink" title="Netdiscover"></a>Netdiscover</h3></blockquote>
+<p> netdiscover 可以直接扫描整个网段 IP  <code>netdiscover -i eth0 -r 1.1.1.1/24</code><br><img src="./netd1.png" alt="netd1"><br>这里 netdiscover 只发现了两个（又忽略了自己…）好处是能识别出常见设备<br>主动的方式扫描文件里的 IP <code>netdiscover -l ip.txt</code><br><img src="./netd2.png" alt="netd2"><br>netdiscover 被动收集信息  <code>netdiscover -p</code><br><img src="./netd3.png" alt="netd3"><br>当网络中有通信时，立即就可以嗅探到 IP，不过需要时间，绝对隐匿</p>
+<hr>
+<blockquote>
+<h3 id="Scapy"><a href="#Scapy" class="headerlink" title="Scapy"></a>Scapy</h3></blockquote>
+<p>kali 中直接 Terminal 键入 scapy 进入：<br><img src="./scapy1.png" alt="scapy1"><br>scapy 中函数名称都要大写 <code>ARP()</code><br>可以自定义包中内容，通过对变量进行赋值，从而调用Sr1()函数发送包：<br><img src="./scapy2.png" alt="scapy2"><br><img src="./scapy3.png" alt="scapy3"><br>目标 IP 有回应，说明主机存活。</p>
+<hr>
+<blockquote>
+<h3 id="Scapy-Python"><a href="#Scapy-Python" class="headerlink" title="Scapy + Python"></a>Scapy + Python</h3></blockquote>
+<p>本来是很简单的几句代码，我可能把所有的坑都踩了一遍，弄到第二天才完成，下面是踩坑记录：</p>
+<p>首先 <code>pip install scapy</code> 安装 scapy 模块，然后在 python 中导入模块<br><code>import scapy</code> 写完代码，给权限 <code>chmod +x scapy.py</code> 准备测试结果：<br><img src="scapyy1" alt="scapyy1"><br>第一个坑就来啦：<br><img src="scapyy2" alt="scapyy2"><br><em>说 <code>sr1()</code> 没有定义</em>，本来这个函数名看起来怪，我怀疑我写错了，就去官网查了下，确定有并且没错，然后又去查资料：<br><img src="scapyy3" alt="scapyy3"><br>原来在 Python 中用 <code>from scapy.all import *</code> 导入 scapy<br>OK 改正之后继续执行：<br><img src="scapyy5" alt="scapyy5"><br>错误提示：上面的命令有问题？…本来 python中这样导入包就不常见，然后又报这样的错，我严重怀疑我上个问题没找到正确答案，然后：<br><img src="scapyy4" alt="scapyy4"><br>文件名的锅？ 改文件名再试试：<br><img src="scapyy6" alt="scapyy6"><br>一下就跑起来了，文件名不能包含任何 <code>scapy</code> 的字样！太坑了…</p>
+<p>利用 Sacpy 扫描文件列表中 IP：<br><img src="scapyy7" alt="scapyy7"><br><img src="scapyy8" alt="scapyy8"></p>
+<hr>
+<blockquote>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3></blockquote>
+<p>这就是二层主机发现的一些方法，可以看出不同工具之间各方面存在一定差异<br>批量扫描速度比较：<code>nmap &gt; netdiscover &gt; apring &gt; scapy</code><br>仅在二层发现中 准确性比较：<code>nmap = arping &gt; netdiscover = scapy</code><br>扫描结果详情展示：<code>netdiscover &gt; nmap &gt; arping = scapy</code><br>可以看到二层扫描结果差强人意，后面有时间再总结下三层和四层的主机扫描<br><em>比如：</em><br><img src="ss" alt="ss"></p>
+<p>总的来说，不同时间不同网络，会有不同的发现…</p>
 
-<section id="statement">
-    <div class="container text-center wow fadeInUp" data-wow-delay="0.5s">
-        <div class="row">
-            <p>Stay Foolish  .   Stay Hungry</p>
+            <div class="clearfix"></div>
+            <hr class="nogutter">
         </div>
+        <nav class="m-pagination col-md-8 col-md-offset-2 col-sm-24" role="pagination">
+    
+    
+    <a class="pull-right" href="/2018/09/03/test/">
+        Picture test →
+    </a>
+    
+</nav>
+
+        <div class="col-md-8 col-md-offset-2 col-sm-24"><script type="text/javascript">
+  /**
+   * 搜狐畅言
+   */
+
+  /*
+  document.write('<div id="SOHUCS" sid="' + window.location.pathname.slice(1) + '" ></div>');
+
+  window.onload = function () {
+    (function () {
+      var appid = 'cytXXXX';
+      var conf = 'prod_xxxxxxxxxxxxxxxxx';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      var loadJs = function (d, a, id) {
+        var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+        var b = document.createElement("script");
+        b.setAttribute("type", "text/javascript");
+        b.setAttribute("charset", "UTF-8");
+        b.setAttribute("src", d);
+        if (id) {
+          b.setAttribute("id", id);
+        }
+        if (typeof a === "function") {
+          if (window.attachEvent) {
+            b.onreadystatechange = function () {
+              var e = b.readyState;
+              if (e === "loaded" || e === "complete") {
+                b.onreadystatechange = null;
+                a()
+              }
+            }
+          } else {
+            b.onload = a
+          }
+        }
+        c.appendChild(b)
+      };
+
+      loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+        window.changyan.api.config({
+          appid: appid,
+          conf: conf
+        })
+      });
+    })();
+  }
+  */
+
+</script>
+</div>
     </div>
 </section>
+
+
       
 <!-- ============================ Footer =========================== -->
 
