@@ -33,7 +33,7 @@
     <link rel="alternate" href="https://github.com/EdenZY?tab=repositories" title="EdenZY" type="application/atom+xml">
     <link rel="stylesheet" href="/css/all.css" media="screen" type="text/css">
     
-    <link rel="stylesheet" href="/highlightjs/googlecode.css" type="text/css">
+    <link rel="stylesheet" href="/highlightjs/railscasts.css" type="text/css">
     
 
     <!--[if IE 8]>
@@ -95,6 +95,8 @@
                     <li><a href="http://darkeden.club/" class="animsition-link">Eden</a></li>
                     
                     <li><a href="https://github.com/EdenZY?tab=repositories" class="animsition-link">Github</a></li>
+                    
+                    <li><a href="https://hexo.io/" class="animsition-link">Hexo</a></li>
                     
                 </ul>
             </li>
@@ -195,7 +197,7 @@
         <div class="col-md-8 col-md-offset-2">
       		<hr>
 <p>在渗透测试中，<code>主机发现</code>通常会是经常用的一项技能，最近在谷安上跟着一个课程学习，随便记录总结一下，方便以后查询</p>
-<p>这里网络发现的是根据 <em>ISO七层</em> 模型来发现的</p>
+<p>这里网络发现的是根据 <em>OSI七层</em> 模型来发现的</p>
 <p><img src="./osi.png" alt="OSI"></p>
 <h3 id="首先是二层发现"><a href="#首先是二层发现" class="headerlink" title="首先是二层发现"></a>首先是二层发现</h3><p>这是网络拓扑图，本次测试中用 Kali 对内网主机进行扫描(Windows IP:192.168.123.85)</p>
 <p><img src="./tuopu.png" alt="tuopu"></p>
@@ -228,13 +230,21 @@
 <blockquote>
 <h3 id="Scapy-Python"><a href="#Scapy-Python" class="headerlink" title="Scapy + Python"></a>Scapy + Python</h3></blockquote>
 <p>本来是很简单的几句代码，我可能把所有的坑都踩了一遍，弄到第二天才完成，下面是踩坑记录：</p>
-<p>首先 <code>pip install scapy</code> 安装 scapy 模块，然后在 python 中导入模块<br><code>import scapy</code> 写完代码，给权限 <code>chmod +x scapy.py</code> 准备测试结果：<br><img src="scapyy1" alt="scapyy1"><br>第一个坑就来啦：<br><img src="scapyy2" alt="scapyy2"><br><em>说 <code>sr1()</code> 没有定义</em>，本来这个函数名看起来怪，我怀疑我写错了，就去官网查了下，确定有并且没错，然后又去查资料：<br><img src="scapyy3" alt="scapyy3"><br>原来在 Python 中用 <code>from scapy.all import *</code> 导入 scapy<br>OK 改正之后继续执行：<br><img src="scapyy5" alt="scapyy5"><br>错误提示：上面的命令有问题？…本来 python中这样导入包就不常见，然后又报这样的错，我严重怀疑我上个问题没找到正确答案，然后：<br><img src="scapyy4" alt="scapyy4"><br>文件名的锅？ 改文件名再试试：<br><img src="scapyy6" alt="scapyy6"><br>一下就跑起来了，文件名不能包含任何 <code>scapy</code> 的字样！太坑了…</p>
-<p>利用 Sacpy 扫描文件列表中 IP：<br><img src="scapyy7" alt="scapyy7"><br><img src="scapyy8" alt="scapyy8"></p>
+<p>首先 <code>pip install scapy</code> 安装 scapy 模块，然后在 python 中导入模块<code>import scapy</code> 写完代码<br>给权限 <code>chmod +x scapy.py</code> 准备测试结果：<br><img src="./scapyy1.png" alt="scapyy1"><br>第一个坑就来啦：<br><img src="./scapyy2.png" alt="scapyy2"></p>
+<p><em>说 <code>sr1()</code> 没有定义</em>，本来这个函数名看起来怪，我怀疑我写错了，就去官网查了下，确定有并且没错，然后又去查资料：</p>
+<p><img src="./scapyy3.png" alt="scapyy3"></p>
+<p>原来在 Python 中用 <code>from scapy.all import *</code> 导入 scapy . OK 改正之后继续执行：<br><img src="./scapyy5.png" alt="scapyy5"><br>错误提示：上面的命令有问题？本来 python中这样导入包就不常见，然后又报这样的错，我严重怀疑我上个问题没找到正确答案，然后：<br><img src="./scapyy4.png" alt="scapyy4"></p>
+<p>文件名的锅？ 改文件名再试试：</p>
+<p><img src="./scapyy6.png" alt="scapyy6"><br>一下就跑起来了，文件名不能包含任何 <code>scapy</code> 的字样！太坑了…</p>
+<p>利用 Sacpy 扫描文件列表中 IP：<br><img src="./scapyy7.png" alt="scapyy7"><br><img src="./scapyy8.png" alt="scapyy8"></p>
 <hr>
 <blockquote>
 <h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3></blockquote>
-<p>这就是二层主机发现的一些方法，可以看出不同工具之间各方面存在一定差异<br>批量扫描速度比较：<code>nmap &gt; netdiscover &gt; apring &gt; scapy</code><br>仅在二层发现中 准确性比较：<code>nmap = arping &gt; netdiscover = scapy</code><br>扫描结果详情展示：<code>netdiscover &gt; nmap &gt; arping = scapy</code><br>可以看到二层扫描结果差强人意，后面有时间再总结下三层和四层的主机扫描<br><em>比如：</em><br><img src="ss" alt="ss"></p>
-<p>总的来说，不同时间不同网络，会有不同的发现…</p>
+<p>这就是二层主机发现的一些方法，可以看出不同工具之间各方面存在一定差异<br>批量扫描速度比较：<code>nmap &gt; netdiscover &gt; apring &gt; scapy</code><br>仅在二层发现中 准确性比较：<code>nmap = arping &gt; netdiscover = scapy</code><br>扫描结果详情展示：<code>netdiscover = nmap &gt; arping = scapy</code><br>可以看到二层扫描结果差强人意，后面有时间再总结下三层和四层的主机扫描<br><em>比如：</em><br><img src="./ss.png" alt="ss"></p>
+<hr>
+<ul>
+<li><em>总的来说，不同时间不同网络，会有不同的发现…</em></li>
+</ul>
 
             <div class="clearfix"></div>
             <hr class="nogutter">
